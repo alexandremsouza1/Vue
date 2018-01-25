@@ -1,4 +1,4 @@
-<template>
+    <template>
       <div id="app">
         <!-- 头部导航 -->
         <span>{{lists}}</span> 
@@ -15,13 +15,13 @@
           lists:''
         }
       },
-         created () {
+      created () {
            this.initData()
           },
-    methods:{
+      methods:{
         initData () {
             list().then(data =>  {
-              this.lists = data.posts 
+          //    this.lists = data.posts 
                 //console.log(data)
             })
         }
