@@ -23,5 +23,11 @@ npm run unit
 # run e2e tests
 npm run e2e
 ```
+echo "# 20" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/hiwangling/20.git
+git push -u origin master
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
