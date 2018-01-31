@@ -16,6 +16,7 @@
 </section>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
    props: {
     session: {
@@ -27,10 +28,14 @@ export default {
          
       }
   },
+ 
   computed:{
+         ...mapState([
+            'userInfo',
+        ]),
         userName(){ 
            // console.log(localStorage.getItem('avator'))
-            return localStorage.getItem('user') ? localStorage.getItem('user') : '';
+            return this.userInfo;
         },
   },
 }

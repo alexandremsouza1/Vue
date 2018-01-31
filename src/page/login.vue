@@ -1,14 +1,12 @@
 <template>
   <section>
-      <headers :session="userName"></headers>
+      <headers :session="userNames"></headers>
       <el-row type="flex" class="row-bg" justify="center">
           <div class="inputlength">
             <ui-textbox
                 floating-label
                 label="用户名"
                 class="labels"
-                autofocus='true'
-                required='true'
                 placeholder="用户名"
                 v-model="userName">
             </ui-textbox>
@@ -16,7 +14,6 @@
                 floating-label
                 label="密码"
                 class="labels"
-                required='true'
                 type='password'
                 placeholder="密码"
                 v-model="password">
@@ -30,7 +27,7 @@
                 </li>
  
             </ul>
-            <ui-button color="green" :size="large" @click='login'>登录</ui-button>
+            <ui-button color="green" @click='login'>登录</ui-button>
           </div>
       </el-row>
   </section>
@@ -38,6 +35,7 @@
 <script>
 import headers from '@/components/Header'
 import { signin } from '@/data/Data'
+import { mapActions } from 'vuex'
 export default {
   name: 'login',
   components:{
@@ -51,24 +49,29 @@ export default {
       }
   },
   computed:{
-        userName(){ 
+        userNames(){ 
            // console.log(localStorage.getItem('avator'))
             return localStorage.getItem('user') ? localStorage.getItem('user') : '';
         },
   },
   methods:{
+       ...mapActions([
+            'createUser'
+        ]),
       login(){
              if (this.userName === '' || this.password === '') {
                 this.$message.error('用户名/密码不能为空');
                 return;
             }
+            
             signin(this.userName,this.password).then(res => {
                 var data = JSON.parse(res);
-               
+
                 if(data.session){
                     this.$message.success('登录成功');
-                    this.session = data.session.user;
-                    localStorage.setItem('user',this.userName)
+                   //   this.session = data.session.user;
+                    // localStorage.setItem('user',this.userName)
+                    this.createUser(this.userName)
                     setTimeout(() => {
                         this.$router.push({path:'/'})
                     },1000)
