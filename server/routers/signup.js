@@ -4,22 +4,31 @@ const md5 = require('md5')
 const checkNotLogin = require('../middlewares/check.js').checkNotLogin
 const checkLogin = require('../middlewares/check.js').checkLogin
 const moment = require('moment');
+var koaBody = require('koa-body')
 const fs = require('fs')
 // 注册页面
-router.get('/signup', async(ctx, next) => {
-    await checkNotLogin(ctx)
-    await ctx.render('signup', {
-        session: ctx.session,
-    })
-})
+// router.get('/signup', async(ctx, next) => {
+//     await checkNotLogin(ctx)
+//     await ctx.render('signup', {
+//         session: ctx.session,
+//     })
+// })
     // post 注册
-router.post('/signup', async(ctx, next) => {
+router.post('/signup',koaBody(), async(ctx, next) => {
     //console.log(ctx.request.body)
+    var data;
+    var requestBody = ctx.request.body;
+    if(typeof requestBody === 'string'){
+        data = JSON.parse(requestBody)
+    }
+    else if(typeof requestBody === 'object'){
+        data = requestBody
+    }
     let user = {
-        name: ctx.request.body.name,
-        pass: ctx.request.body.password,
-        repeatpass: ctx.request.body.repeatpass,
-        avator: ctx.request.body.avator
+        name: data.name,
+        pass: data.password,
+        repeatpass: data.repeatpass,
+        avator: data.avator
     }
     await userModel.findDataByName(user.name)
         .then(async (result) => {
@@ -32,14 +41,10 @@ router.post('/signup', async(ctx, next) => {
                     console.log(error)
                 }
                 // 用户存在
-                ctx.body = {
-                    data: 1
-                };;
+                ctx.body = 1;
                 
             } else if (user.pass !== user.repeatpass || user.pass === '') {
-                ctx.body = {
-                    data: 2
-                };
+                ctx.body = 2;
             } else {
                 // ctx.session.user=ctx.request.body.name   
                 let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, "");
@@ -60,9 +65,7 @@ router.post('/signup', async(ctx, next) => {
                         .then(res=>{
                             console.log('注册成功',res)
                             //注册成功
-                            ctx.body = {
-                                data: 3
-                            };
+                            ctx.body = 3;
                         })
                 }else{
                     consol.log('头像上传失败')

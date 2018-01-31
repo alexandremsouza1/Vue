@@ -69,42 +69,15 @@
     }
     </script>
 
- <style lang="scss" scope>
-html {
-    font-size: 100%;
-}
-  body{margin: 0;   
-   color: #353535;
-    font-size: 14px;
-    letter-spacing: 0;
-    line-height: 23px;
-    font-family: Lato, Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    font-style: normal;}
-    ol,
-ul,
-li {
-    list-style: none
-}
-ul {
-    margin: 0;
-    padding: 0;
-    }
+ <style lang="scss" scoped>
   html{font-size: 62.5%;}
-  a:hover {
-    text-decoration: none
-}
-  a{
-    text-decoration: none
-}
   #main{
     width: 1070px;
     margin: 80px auto 0;
     display: flex;
-    
     .blog{
       width: 68%;
-      padding-right: 30px;
+      margin-right: 30px;
     .card{
       margin-bottom: 40px;
       .top-card{

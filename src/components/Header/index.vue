@@ -3,7 +3,13 @@
 <div class="header-content">
 <img src="" alt="">
 <div class="rest">
-<ui-fab color="primary"><svg-icon icon-class="message" class-name="login-icon" /></ui-fab>
+    <template v-if="!userName">
+      <router-link to="/login">登录</router-link>
+      <router-link to="/register">注册</router-link>
+   </template>
+   <template v-else>
+       <span>{{userName}}</span>
+   </template>   
 </div>
  
 </div>
@@ -11,10 +17,30 @@
 </template>
 <script>
 export default {
-  
+   props: {
+    session: {
+      type: String
+    }
+  },
+  data(){
+      return {
+         
+      }
+  },
+  computed:{
+        userName(){ 
+           // console.log(localStorage.getItem('avator'))
+            return localStorage.getItem('user') ? localStorage.getItem('user') : '';
+        },
+  },
 }
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
+.login-icon{
+    width: 25px!important;
+    height: 25px!important;
+    margin-right: 10px;
+}
 #header{
     height: 60px;
     position: absolute;
@@ -22,6 +48,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: 1000;
     background-color: transparent;
     // box-shadow: 4px 2px 7px 0px rgba(45, 45, 45, 0.08);
     .header-content{
