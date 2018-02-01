@@ -91,7 +91,7 @@ createTable(comment)
 
 // 注册用户
 let insertData =  ( value ) => {
-  let _sql = "insert into users set name=?,pass=?,avator=?,moment=?;"
+  let _sql = "insert into users set name=?,pass=?,avator=?,moment=?"
   return query( _sql, value )
 }
 // 删除用户

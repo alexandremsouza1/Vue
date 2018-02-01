@@ -20,7 +20,7 @@ router.post('/checkUser',koaBody(),async(ctx,next)=>{
     else if (typeof requestBody === 'object') {
         data = requestBody
     }
-    // console.log(data.name)
+     console.log(data.token)
     await userModel.checkUser([data.name])
             .then(res => {
                 console.log(res[0].token)

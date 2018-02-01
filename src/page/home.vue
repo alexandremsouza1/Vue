@@ -40,7 +40,8 @@
     <script>
     import side from '@/components/Side'
     import headers from '@/components/Header'
-    import { list } from '@/data/Data'
+    import { list,checkUser } from '@/data/Data' 
+    import { mapActions } from 'vuex'
     export default {
       name: 'home',
        components:{
@@ -53,19 +54,36 @@
           size: '',
         }
       },
-      created () {
-           this.initData()
-          },
-       methods:{
 
-        initData () {
-            list().then(data =>  {
-              this.lists = data.posts 
-                //console.log(data)
-            })
-        }
-        
+      computed:{
+ 
+      },
+      mounted () {
+        checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
+            //console.log(data)
+            if (data == 'success') {
+                this.createUser(localStorage.getItem('user'))
+                // this.$router.push({path:'/'})
+            }else if(data == 'expired'){
+                this.$message.warning('登录信息已经过期');
+                this.createUser('')
+                 setTimeout(()=>{
+                        this.$router.push({path:'/login'})
+                    },1500)
+                localStorage.clear()
+            }
+        })
+      },
+      created () {
+          
+          },
+
+       methods:{
+        ...mapActions([
+            'createUser'
+        ])
     }
+
     }
     </script>
 

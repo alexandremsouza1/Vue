@@ -3,13 +3,10 @@
 <div class="header-content">
 <img src="" alt="">
 <div class="rest">
-    <template v-if="!userInfo">
-      <router-link to="/login">登录</router-link>
-      <router-link to="/register">注册</router-link>
-   </template>
-   <template v-else>
-       <span>{{userInfo}}</span>
-   </template>   
+    
+      <router-link to="/login">{{logins}}</router-link>
+      <router-link to="/register">{{register}}</router-link>
+  
 </div>
  
 </div>
@@ -18,17 +15,30 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+
   data(){
       return {
-         
+         login:'',
+         register:'注册'
       }
   },
- 
+
   computed:{
          ...mapState([
             'userInfo',
         ]),
+         logins(){ 
+            return this.login = this.userInfo == ''? '登录':this.userInfo
+        },
   },
+ 
+  mounted () {
+      
+    },
+
+  methods:{
+ 
+  }
 }
 </script>
 <style lang="scss" scoped>

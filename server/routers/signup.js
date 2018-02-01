@@ -30,6 +30,7 @@ router.post('/signup',koaBody(), async(ctx, next) => {
         repeatpass: data.repeatpass,
         avator: data.avator
     }
+    
     await userModel.findDataByName(user.name)
         .then(async (result) => {
             console.log(result)

@@ -1,6 +1,6 @@
 <template>
   <section>
-      <headers :sessions="userNames"></headers>
+      <headers></headers>
       <el-row type="flex" class="row-bg" justify="center">
           <div class="inputlength">
             <ui-textbox
@@ -55,6 +55,7 @@ export default {
         },
   },
   mounted () {
+      // console.log(localStorage.getItem('token'))
         checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
             //console.log(data)
             if (data == 'success') {
@@ -66,15 +67,9 @@ export default {
                  setTimeout(()=>{
                         this.$router.push({path:'/login'})
                     },1500)
-                localStorage.removeItem('user');
-                localStorage.removeItem('avator');
-                localStorage.removeItem('token');
+                localStorage.clear()
             }else{
-                this.createUser('')
-                this.$router.push({path:'/login'})
-                localStorage.removeItem('user');
-                localStorage.removeItem('avator');
-                localStorage.removeItem('token');
+                localStorage.clear()
             }
         })
     },
