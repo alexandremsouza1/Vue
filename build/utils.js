@@ -26,6 +26,12 @@ exports.cssLoaders = function (options) {
     loader: 'postcss-loader',
     options: {
       sourceMap: options.sourceMap
+      // plugins: [
+      //   require('postcss-pxtorem')({
+      //     'rootValue': 32,
+      //     propList: ['*']
+      //   })
+      // ]
     }
   }
 

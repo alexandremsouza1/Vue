@@ -4,7 +4,7 @@ const md5 = require('md5')
 const checkNotLogin = require('../middlewares/check.js').checkNotLogin
 const checkLogin = require('../middlewares/check.js').checkLogin
 const moment = require('moment');
-var koaBody = require('koa-body')
+const koaBody = require('koa-body')
 const fs = require('fs')
 // 注册页面
 // router.get('/signup', async(ctx, next) => {
@@ -50,6 +50,7 @@ router.post('/signup',koaBody(), async(ctx, next) => {
                 let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, "");
                 let dataBuffer = new Buffer(base64Data, 'base64');
                 let getName = Number(Math.random().toString().substr(3)).toString(36) + Date.now()
+             
                 let upload = await new Promise((reslove,reject)=>{
                     fs.writeFile('./public/images/' + getName + '.png', dataBuffer, err => { 
                         if (err) {
@@ -61,7 +62,7 @@ router.post('/signup',koaBody(), async(ctx, next) => {
                     });            
                 })
                 if (upload) {
-                    await userModel.insertData([user.name, md5(user.pass), getName+'.png', moment().format('YYYY-MM-DD HH:mm:ss')])
+                    await userModel.insertData([user.name, md5(user.pass), getName+'.png', moment().format('YYYY-MM-DD HH:mm:ss')]) 
                         .then(res=>{
                             console.log('注册成功',res)
                             //注册成功

@@ -1,6 +1,6 @@
 <template>
   <section>
-      <headers :session="userNames"></headers>
+      <headers :sessions="userNames"></headers>
       <el-row type="flex" class="row-bg" justify="center">
           <div class="inputlength">
             <ui-textbox
@@ -34,7 +34,7 @@
 </template>
 <script>
 import headers from '@/components/Header'
-import { signin } from '@/data/Data'
+import { signin ,checkUser } from '@/data/Data'
 import { mapActions } from 'vuex'
 export default {
   name: 'login',
@@ -54,6 +54,30 @@ export default {
             return localStorage.getItem('user') ? localStorage.getItem('user') : '';
         },
   },
+  mounted () {
+        checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
+            //console.log(data)
+            if (data == 'success') {
+                this.createUser(localStorage.getItem('user'))
+                // this.$router.push({path:'/'})
+            }else if(data == 'expired'){
+                this.$message.warning('登录信息已经过期');
+                this.createUser('')
+                 setTimeout(()=>{
+                        this.$router.push({path:'/login'})
+                    },1500)
+                localStorage.removeItem('user');
+                localStorage.removeItem('avator');
+                localStorage.removeItem('token');
+            }else{
+                this.createUser('')
+                this.$router.push({path:'/login'})
+                localStorage.removeItem('user');
+                localStorage.removeItem('avator');
+                localStorage.removeItem('token');
+            }
+        })
+    },
   methods:{
        ...mapActions([
             'createUser'
@@ -65,17 +89,23 @@ export default {
             }
             
             signin(this.userName,this.password).then(res => {
+                  
                 var data = JSON.parse(res);
-
-                if(data.session){
+                 
+                if(data.msg == 'ok'){
                     this.$message.success('登录成功');
                    //   this.session = data.session.user;
                     // localStorage.setItem('user',this.userName)
-                    this.createUser(this.userName)
+                  
+                    localStorage.setItem('user',this.userName)
+                    localStorage.setItem('avator',data.avator)
+                    localStorage.setItem('token',data.token)
+                    this.createUser(localStorage.getItem('user'))
+                    // this.createUser(this.userName)
                     setTimeout(() => {
                         this.$router.push({path:'/'})
                     },1000)
-                }else if(res == '4'){
+                }else{
                     this.$message.error('密码错误');
                     this.userName = '';
                     this.password = '';

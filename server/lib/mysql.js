@@ -49,6 +49,8 @@ let users =
      pass VARCHAR(100) NOT NULL,
      avator VARCHAR(100) NOT NULL,
      moment VARCHAR(100) NOT NULL,
+     loginmoment VARCHAR(100) NOT NULL,
+     token VARCHAR(100) NOT NULL DEFAULT '',
      PRIMARY KEY ( id )
     );`
 
@@ -97,10 +99,20 @@ let deleteUserData = ( name ) => {
   let _sql = `delete from users where name="${name}";`
   return query( _sql )
 }
+// 检测用户登录信息的有效性
+let checkUser = (value) => {
+  var _sql = `select * from users where name=?;`
+  return query(_sql, value)
+}
+
 // 查找用户
 let findUserData = ( name ) => {
   let _sql = `select * from users where name="${name}";`
   return query( _sql )
+}
+let loginData =  ( value ) => {
+  let _sql = "update users set loginmoment=?,token=? where name=?"
+  return query( _sql, value )
 }
 // 发表文章
 let insertPost = ( value ) => {
@@ -216,6 +228,7 @@ module.exports = {
   findDataByUser,
   findDataById,
   insertComment,
+  loginData,
   findCommentById,
   findComment,
   updatePost,
@@ -226,6 +239,7 @@ module.exports = {
   deleteAllPostComment,
   updatePostPv,
   findPageById,
+  checkUser,
   findCommentByPage
 }
 

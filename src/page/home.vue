@@ -42,7 +42,7 @@
     import headers from '@/components/Header'
     import { list } from '@/data/Data'
     export default {
-      name: 'app',
+      name: 'home',
        components:{
         side,
         headers
@@ -50,7 +50,7 @@
       data: function (){
         return {
           lists:'',
-          size: 'large',
+          size: '',
         }
       },
       created () {

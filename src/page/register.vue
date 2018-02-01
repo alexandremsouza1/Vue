@@ -104,10 +104,10 @@ export default {
             signup(this.userName,this.password,this.repeatpass,this.dataUrl).then(res => {
                 if(res == '3'){
                     this.$message.success('注册成功');
-                    localStorage.setItem('user',this.userName)
-                    localStorage.setItem('avator',this.dataUrl);
+                    // localStorage.setItem('user',this.userName)
+                    // localStorage.setItem('avator',this.dataUrl);
                     setTimeout(() => {
-                        this.$router.push({path:'/'})
+                        this.$router.push({path:'/login'})
                     },1000)
                 }
             })

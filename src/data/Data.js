@@ -15,3 +15,10 @@ export const signin = ( name , pass) => fetch(baseUrl+'/signin', {
 }).then(function(response) {
     return  response.text()
 })
+export const checkUser = (name, token) => fetch(baseUrl + '/checkUser', {
+    method: "POST",
+    body: JSON.stringify({ name: name, token: token }),
+    mode: "cors",
+}).then(function (response) {
+    return response.text()
+})

@@ -3,12 +3,12 @@
 <div class="header-content">
 <img src="" alt="">
 <div class="rest">
-    <template v-if="!userName">
+    <template v-if="!userInfo">
       <router-link to="/login">登录</router-link>
       <router-link to="/register">注册</router-link>
    </template>
    <template v-else>
-       <span>{{userName}}</span>
+       <span>{{userInfo}}</span>
    </template>   
 </div>
  
@@ -18,11 +18,6 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-   props: {
-    session: {
-      type: String
-    }
-  },
   data(){
       return {
          
@@ -33,10 +28,6 @@ export default {
          ...mapState([
             'userInfo',
         ]),
-        userName(){ 
-           // console.log(localStorage.getItem('avator'))
-            return this.userInfo;
-        },
   },
 }
 </script>
