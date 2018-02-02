@@ -6,7 +6,7 @@
           <p>{{list.time}}</p>
         </div>
           <div class="main-card">
-                <div class="posts-content" v-html="list.content"></div>
+                <div class="posts-content" v-html="list.md"></div>
                 <div class="posts-y">
                   <ui-button color="orange">阅读全文</ui-button>
                 </div>

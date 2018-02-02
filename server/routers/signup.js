@@ -15,7 +15,7 @@ const fs = require('fs')
 // })
     // post 注册
 router.post('/signup',koaBody(), async(ctx, next) => {
-    //console.log(ctx.request.body)
+    console.log(ctx.request.body)
     var data;
     var requestBody = ctx.request.body;
     if(typeof requestBody === 'string'){
@@ -30,10 +30,10 @@ router.post('/signup',koaBody(), async(ctx, next) => {
         repeatpass: data.repeatpass,
         avator: data.avator
     }
-    
+    console.log(user)
     await userModel.findDataByName(user.name)
         .then(async (result) => {
-            console.log(result)
+            // console.log(result)
             if (result.length) {
                 try {
                     throw Error('用户已经存在')

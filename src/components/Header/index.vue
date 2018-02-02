@@ -2,18 +2,15 @@
 <section id="header" :class="{'nobackground':bgclass,'defbackground':!bgclass}">
 <div class="header-content">
 <ul>
-    <li><router-link to="/">全部文章</router-link></li>
-    <li><router-link to="/articles">发表文章</router-link></li>
-    <li><router-link to="/login">{{login}}</router-link></li>
-    <li><router-link to="/register">{{register}}</router-link></li>
+    <template v-if="logins">
+    <li><router-link to="/" class="box">全部文章</router-link></li>
+    <li><router-link to="/articles" class="box">发表文章</router-link></li>
+    </template>
+    <template v-else>
+    <li><router-link to="/login" class="loginbox">登录</router-link></li>
+    <li><router-link to="/register" class="box">注册</router-link></li>
+    </template>
 </ul>
-<!-- <div class="rest">
-    
-      <router-link to="/login">{{logins}}</router-link>
-      <router-link to="/register">{{register}}</router-link>
-  
-</div> -->
- 
 </div>
 </section>
 </template>
@@ -23,9 +20,8 @@ export default {
 
   data(){
       return {
-         login:'登录',
-         register:'注册',
          bgclass:false,
+         checklg:true,
       }
   },
 
@@ -34,7 +30,7 @@ export default {
             'userInfo',
         ]),
          logins(){ 
-            // return this.login = this.userInfo == ''? '登录':this.userInfo
+             return this.checklg = this.userInfo == ''? false:true;
         },
   },
  
@@ -71,10 +67,12 @@ export default {
     margin-right: 15px;
     li{
     float: left;
+    text-align: center;
+    width: 90px;
     position: relative;
     display: block;
     a{
-    padding: 30px 15px;
+    
     }
      }
       }
@@ -84,14 +82,6 @@ export default {
         line-height: 60px;
         margin: 0 auto;
         height: 100%;
-
-        // .rest{
-        //     display: inline-block;
-        //     float: right;
-        //     a{
-        //         color: #353535
-        //     }
-        // }
     }
 
 }
@@ -106,8 +96,66 @@ export default {
     background-color: #5BC98A!important;
     box-shadow: 0px 2px 5px rgba(190, 190, 190, 0.3);
      ul li a{
-            color: #fff;
+            color: #666;
        }
 }
+
+.box {
+    padding: 10px!important;
+        height: 8px;
+    line-height: 10px;
+    width: 50px;
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  transition: 0.5s;
+  cursor: pointer;
+  border: 1px solid #666;
+  transition: 0.5s;
+  &:hover{
+        color: #666;
+        text-decoration: none;
+  }
+}
+
+.box::before, .box::after {
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  transform: scale(0);
+  transition: 0.5s;
+}
+
+.box::before {
+  border-bottom: 1px solid #666;
+  border-left: 1px solid #666;
+  transform-origin: 0 100%;
+}
+
+.box::after {
+  border-top: 1px solid #666;
+  border-right: 1px solid #666;
+  transform-origin: 100% 0%;
+}
+
+.box:hover::after, .box:hover::before {
+  transform: scale(1);
+}
+.loginbox{   
+   border-radius: 100px;
+    background: linear-gradient(135deg, #FF4B4B 0%, #FF1B66 100%);
+    color: white!important;
+    padding: 5px 15px;
+    font-size: 13px;
+  
+    line-height: 15px;
+    margin-top: -2px;
+
+    }
 </style>
 

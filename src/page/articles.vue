@@ -60,9 +60,22 @@ export default {
         //   localStorage.getItem('user')
       },
       report(){
-       //  console.log(this.content)
+           if (this.title == '') {
+                this.$message.warning('请输入文章标题');
+                this.title = '';
+                return
+            }else if(this.content == ''){
+                this.$message.warning('请输入文章内容');
+                this.content = '';
+                return
+            }
          create(this.title,this.content,this.id,this.name).then(data=>{
-                console.log(data)
+              //  console.log(data)
+                if(data){
+                  this.$message.success('发表成功');
+                  this.title ='';
+                  this.content ='';
+                }
          })
       }
   }
