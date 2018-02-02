@@ -2,10 +2,9 @@
 <section id="header" :class="{'nobackground':bgclass,'defbackground':!bgclass}">
 <div class="header-content">
 <ul>
-    <li><a>About</a></li>
-    <li><a>About</a></li>
-    <li><a>About</a></li>
-    <li><router-link to="/login">{{logins}}</router-link></li>
+    <li><router-link to="/">全部文章</router-link></li>
+    <li><router-link to="/articles">发表文章</router-link></li>
+    <li><router-link to="/login">{{login}}</router-link></li>
     <li><router-link to="/register">{{register}}</router-link></li>
 </ul>
 <!-- <div class="rest">
@@ -24,7 +23,7 @@ export default {
 
   data(){
       return {
-         login:'',
+         login:'登录',
          register:'注册',
          bgclass:false,
       }
@@ -35,7 +34,7 @@ export default {
             'userInfo',
         ]),
          logins(){ 
-            return this.login = this.userInfo == ''? '登录':this.userInfo
+            // return this.login = this.userInfo == ''? '登录':this.userInfo
         },
   },
  
@@ -100,13 +99,14 @@ export default {
        background-color: transparent;
        transition: all 1s ease-in-out;
        ul li a{
-           color:#000;
+           color:#423f3f;
        }
 }
 .nobackground{
-    background-color: #fff!important;
+    background-color: #5BC98A!important;
+    box-shadow: 0px 2px 5px rgba(190, 190, 190, 0.3);
      ul li a{
-            color: #6f6f6f;
+            color: #fff;
        }
 }
 </style>

@@ -1,6 +1,7 @@
 const router = require('koa-router')();
 const userModel = require('../lib/mysql.js')
 const moment = require('moment')
+const koaBody = require('koa-body')
 const checkNotLogin = require('../middlewares/check.js').checkNotLogin
 const checkLogin = require('../middlewares/check.js').checkLogin;
 const md = require('markdown-it')();  
@@ -47,7 +48,6 @@ router.get('/posts', async(ctx, next) => {
             
         // })
         posts = {
-                 session: ctx.session,
                  posts: res,
                  postsLength: postsLength,
                  postsPageLength: Math.ceil(postsLength / 10),
@@ -122,15 +122,34 @@ router.get('/create', async(ctx, next) => {
 })
 
 // post 发表文章
-router.post('/create', async(ctx, next) => {
-    let title = ctx.request.body.title,
-        content = ctx.request.body.content,
-        id = ctx.session.id,
-        name = ctx.session.user,
-        time = moment().format('YYYY-MM-DD HH:mm:ss'),
-        avator,
+router.post('/create',koaBody(), async(ctx, next) => {
+    // console.log(ctx.request.body)
+    // let title = ctx.request.body.title,
+    //     content = ctx.request.body.content,
+    //     id = ctx.session.id,
+    //     name = ctx.session.user,
+    //     time = moment().format('YYYY-MM-DD HH:mm:ss'),
+
+        var avator;
+        var data;
+        var time;
+        var requestBody = ctx.request.body;
+        if(typeof requestBody === 'string'){
+            data = JSON.parse(requestBody)
+        }
+        else if(typeof requestBody === 'object'){
+            data = requestBody
+        }
+        let user = {
+            title: data.title,
+            content: data.content,
+            id: data.uid,
+            name: data.name,
+            time:moment().format('YYYY-MM-DD HH:mm:ss')
+        }
+        
         // 现在使用markdown不需要单独转义
-        newContent = content.replace(/[<">']/g, (target) => { 
+        newContent = user.content.replace(/[<">']/g, (target) => { 
             return {
                 '<': '&lt;',
                 '"': '&quot;',
@@ -138,7 +157,7 @@ router.post('/create', async(ctx, next) => {
                 "'": '&#39;'
             }[target]
         }),
-        newTitle = title.replace(/[<">']/g, (target) => {
+        newTitle = user.title.replace(/[<">']/g, (target) => {
             return {
                 '<': '&lt;',
                 '"': '&quot;',
@@ -148,12 +167,18 @@ router.post('/create', async(ctx, next) => {
         });
 
     //console.log([name, newTitle, content, id, time])
-    await userModel.findUserData(ctx.session.user)
+    await userModel.findUserData(user.name)
         .then(res => {
-            console.log(res[0]['avator'])
+           // console.log(res[0]['avator'])
             avator = res[0]['avator']       
         })
-    await userModel.insertPost([name, newTitle, md.render(content), content, id, time,avator])
+        // console.log(user.name)
+        // console.log(user.content)
+        // console.log(user.id)
+        // console.log(user.time)
+        // console.log(avator)
+        // console.log(newTitle)
+    await userModel.insertPost([user.name, newTitle, md.render(user.content), user.content, user.id, user.time,avator])
             .then(() => {
                 ctx.body = true
             }).catch(() => {

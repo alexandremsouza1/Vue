@@ -5,9 +5,8 @@
      ABOUT ME
      </h2>
      <div class="side-content">
-     <img src="https://1.bp.blogspot.com/-bpKmzXzMnzU/WjVHGKLLo2I/AAAAAAAAKKI/bV9N42WPFmohZ30Jy5qAzhzIuj-tRxgkQCLcBGAs/s1600/photovatar.jpg" alt="">
-     <p>Months had too ham cousin remove far spirit. She procuring the why performed continual improving. </p>
-     <a href="">more</a>
+     <img v-lazy="base + avators" alt="">
+     <p>{{name}} </p>
      </div>
 </div>
  
@@ -20,13 +19,33 @@
 </section>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
-    name: 'vright',
+    name: 'side',
     data () {
         return {
-        msg: ''
+        avators:'',
+        name: '',
+        base:'http://localhost:3000/images/',
         }
-    }
+    },
+    computed:{
+          ...mapState([
+            'userInfo',
+        ]),
+
+     },
+    created() {
+    this.insdata()
+    },
+    methods:{
+      insdata(){
+          this.avators = localStorage.getItem('avator') ? localStorage.getItem('avator') : '';
+          this.name = localStorage.getItem('user') ? localStorage.getItem('user') : '';
+      }
+
+      }
+
 }
 </script>
 <style lang="scss" scoped>

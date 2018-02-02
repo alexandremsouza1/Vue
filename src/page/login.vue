@@ -89,11 +89,9 @@ export default {
                  
                 if(data.msg == 'ok'){
                     this.$message.success('登录成功');
-                   //   this.session = data.session.user;
-                    // localStorage.setItem('user',this.userName)
-                  
                     localStorage.setItem('user',this.userName)
                     localStorage.setItem('avator',data.avator)
+                    localStorage.setItem('id',data.id)
                     localStorage.setItem('token',data.token)
                     this.createUser(localStorage.getItem('user'))
                     // this.createUser(this.userName)

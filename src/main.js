@@ -8,6 +8,7 @@ import ElementUI from 'element-ui'
 import KeenUI from 'keen-ui'
 import 'keen-ui/dist/keen-ui.css'
 import axios from 'axios'
+import VueLazyload from 'vue-lazyload'
 import 'element-ui/lib/theme-chalk/index.css'
 import SvgIcon from '@/components/SvgIcon'// svg组件
 
@@ -20,6 +21,9 @@ Vue.component('svg-icon', SvgIcon)
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
+Vue.use(VueLazyload, {
+  loading: 'http://www.wclimb.site/images/imgLoading.svg'
+})
 Vue.use(ElementUI)
 Vue.use(KeenUI)
 /* eslint-disable no-new */

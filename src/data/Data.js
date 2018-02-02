@@ -22,3 +22,10 @@ export const checkUser = (name, token) => fetch(baseUrl + '/checkUser', {
 }).then(function (response) {
     return response.text()
 })
+export const create = ( title , content , uid , name) => fetch(baseUrl+'/create', {
+    method: "POST",
+    body: JSON.stringify({ name: name, uid: uid,title:title,content:content}),
+    mode: "cors",
+}).then(function(response) {
+    return  response.text()
+})

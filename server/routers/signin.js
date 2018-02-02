@@ -68,6 +68,7 @@ router.post('/signin', koaBody() ,async(ctx, next) => {
                 ctx.body = {
                     msg: 'ok' ,
                     avator: res[0]['avator'],
+                    id:res[0]['id'],
                     token: new_token
                 }
             }else{
