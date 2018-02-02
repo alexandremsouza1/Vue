@@ -146,7 +146,9 @@ a:hover {
 
 a,
 ins {
-    text-decoration: none
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
 }
 
 button,
@@ -160,4 +162,5 @@ input[type=submit] {
 body {
     font-size: 12px;
     height: 100%;   
+   
 }

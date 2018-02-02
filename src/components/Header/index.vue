@@ -1,13 +1,19 @@
 <template>
-<section id="header">
+<section id="header" :class="{'nobackground':bgclass,'defbackground':!bgclass}">
 <div class="header-content">
-<img src="" alt="">
-<div class="rest">
+<ul>
+    <li><a>About</a></li>
+    <li><a>About</a></li>
+    <li><a>About</a></li>
+    <li><router-link to="/login">{{logins}}</router-link></li>
+    <li><router-link to="/register">{{register}}</router-link></li>
+</ul>
+<!-- <div class="rest">
     
       <router-link to="/login">{{logins}}</router-link>
       <router-link to="/register">{{register}}</router-link>
   
-</div>
+</div> -->
  
 </div>
 </section>
@@ -19,7 +25,8 @@ export default {
   data(){
       return {
          login:'',
-         register:'注册'
+         register:'注册',
+         bgclass:false,
       }
   },
 
@@ -33,11 +40,13 @@ export default {
   },
  
   mounted () {
-      
+      window.addEventListener('scroll',this.winScroll);
     },
 
   methods:{
- 
+      winScroll(){
+           window.scrollY > 60? this.bgclass = true:this.bgclass = false;
+        },    
   }
 }
 </script>
@@ -49,28 +58,56 @@ export default {
 }
 #header{
     height: 60px;
-    position: absolute;
+    width: 100%;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+    position: fixed;
+    display: block;
+    border: none;
     z-index: 1000;
-    background-color: transparent;
+    ul {
+    float: right;
+    margin-right: 15px;
+    li{
+    float: left;
+    position: relative;
+    display: block;
+    a{
+    padding: 30px 15px;
+    }
+     }
+      }
     // box-shadow: 4px 2px 7px 0px rgba(45, 45, 45, 0.08);
     .header-content{
         width: 1070px;
         line-height: 60px;
         margin: 0 auto;
         height: 100%;
-        .rest{
-            display: inline-block;
-            float: right;
-            a{
-                color: #353535
-            }
-        }
+
+        // .rest{
+        //     display: inline-block;
+        //     float: right;
+        //     a{
+        //         color: #353535
+        //     }
+        // }
     }
 
+}
+.defbackground{
+       background-color: transparent;
+       transition: all 1s ease-in-out;
+       ul li a{
+           color:#000;
+       }
+}
+.nobackground{
+    background-color: #fff!important;
+     ul li a{
+            color: #6f6f6f;
+       }
 }
 </style>
 
