@@ -9,9 +9,7 @@
               <el-button type="primary" @click="report">提交</el-button>
               <el-button>清空</el-button>
               </div>
-          
           </div>
- 
 <side></side>
       </div>
          

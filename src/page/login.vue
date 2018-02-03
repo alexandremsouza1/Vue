@@ -55,24 +55,13 @@ export default {
         },
   },
   mounted () {
-      // console.log(localStorage.getItem('token'))
-        checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
-            //console.log(data)
-            if (data == 'success') {
-                this.createUser(localStorage.getItem('user'))
-                // this.$router.push({path:'/'})
-            }else if(data == 'expired'){
-                this.$message.warning('登录信息已经过期');
-                this.createUser('')
-                 setTimeout(()=>{
-                        this.$router.push({path:'/login'})
-                    },1500)
-                localStorage.clear()
-            }else{
-                localStorage.clear()
-            }
-        })
+
     },
+ beforeEach (to, from, next) {
+ 
+ next()
+ 
+   },
   methods:{
        ...mapActions([
             'createUser'
@@ -96,7 +85,8 @@ export default {
                     this.createUser(localStorage.getItem('user'))
                     // this.createUser(this.userName)
                     setTimeout(() => {
-                        this.$router.push({path:'/'})
+                        //this.$router.push({path:'/'})
+                        this.$router.go(-1)
                     },1000)
                 }else{
                     this.$message.error('密码错误');

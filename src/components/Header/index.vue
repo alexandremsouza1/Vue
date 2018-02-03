@@ -15,7 +15,8 @@
 </section>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState,mapActions } from 'vuex'
+import { checkUser } from '@/data/Data' 
 export default {
 
   data(){
@@ -34,11 +35,30 @@ export default {
         },
   },
  
-  mounted () {
+  created () {
       window.addEventListener('scroll',this.winScroll);
+          
+      checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
+            //console.log(data)
+            if (data == 'success') {
+                this.createUser(localStorage.getItem('user'))
+                // this.$router.push({path:'/'})
+            }else if(data == 'expired'){
+                this.$message.warning('登录信息已经过期');
+                this.createUser('')
+                 setTimeout(()=>{
+                        this.$router.push({path:'/login'})
+                    },1500)
+                localStorage.clear()
+            }
+        })
+     
     },
 
   methods:{
+       ...mapActions([
+            'createUser'
+        ]),
       winScroll(){
            window.scrollY > 60? this.bgclass = true:this.bgclass = false;
         },    

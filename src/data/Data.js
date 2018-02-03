@@ -29,3 +29,12 @@ export const create = ( title , content , uid , name) => fetch(baseUrl+'/create'
 }).then(function(response) {
     return  response.text()
 })
+export const comment = (content , uid , name) => fetch(baseUrl+'/comments', {
+    method: "POST",
+    body: JSON.stringify({ name: name, uid: uid,content:content}),
+    mode: "cors",
+}).then(function(response) {
+    return  response.text()
+})
+export const singlePostData = ( id ) => fetch(baseUrl+'/posts/'+id).then(response => response.json())
+ 

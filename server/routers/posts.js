@@ -102,14 +102,14 @@ router.get('/posts/:postId', async(ctx, next) => {
         .then(result => {
             comment_res = result
             //console.log('comment', comment_res)
-        })
-    await ctx.render('sPost', {
-        session: ctx.session,
+        }) 
+    posts = {
         posts: res[0],
         commentLenght: comment_res.length,
         commentPageLenght: Math.ceil(comment_res.length/10),
         pageOne:pageOne
-    })
+}
+ctx.body = posts 
 
 })
 
@@ -187,25 +187,39 @@ router.post('/create',koaBody(), async(ctx, next) => {
 })
 
 // 发表评论
-router.post('/:postId', async(ctx, next) => {
-    let name = ctx.session.user,
-        content = ctx.request.body.content,
-        postId = ctx.params.postId,
-        res_comments,
-        time = moment().format('YYYY-MM-DD HH:mm:ss'),
-        avator;
-    await userModel.findUserData(ctx.session.user)
+router.post('/comments', koaBody(),async(ctx, next) => {
+    // let name = ctx.session.user,
+    //     content = ctx.request.body.content,
+    //     postId = ctx.params.postId,
+
+        var requestBody = ctx.request.body;
+        if(typeof requestBody === 'string'){
+            data = JSON.parse(requestBody)
+        }
+        else if(typeof requestBody === 'object'){
+            data = requestBody
+        }
+        let user = {
+            name: data.name,
+            content: data.content,
+            id: data.uid,
+            time:moment().format('YYYY-MM-DD HH:mm:ss')
+        }
+        console.log(user)
+        var res_comments;
+        var avator;
+    await userModel.findUserData(user.name)
         .then(res => {
             console.log(res[0]['avator'])
             avator = res[0]['avator']
         })   
-    await userModel.insertComment([name, md.render(content),time, postId,avator])
-    await userModel.findDataById(postId)
+    await userModel.insertComment([user.name, md.render(user.content),user.time, user.id,avator])
+    await userModel.findDataById(user.id)
         .then(result => {
             res_comments = parseInt(result[0]['comments'])
             res_comments += 1
         })
-    await userModel.updatePostComment([res_comments, postId])
+    await userModel.updatePostComment([res_comments, user.id])
         .then(() => {
             ctx.body = true
         }).catch(() => {

@@ -8,7 +8,7 @@
           <div class="main-card">
                 <div class="posts-content" v-html="list.md"></div>
                 <div class="posts-y">
-                  <ui-button color="orange">阅读全文</ui-button>
+                  <ui-button color="orange"><router-link :to="'/detail/'+list.id">阅读全文</router-link></ui-button>
                 </div>
           </div>
 
@@ -43,7 +43,7 @@ export default {
           list().then(data=>{
            // console.log(data.posts)
            this.lists = data.posts;
-           console.log(this.lists)
+         //  console.log(this.lists)
           })
         }
       }

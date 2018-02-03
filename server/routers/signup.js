@@ -48,33 +48,55 @@ router.post('/signup',koaBody(), async(ctx, next) => {
                 ctx.body = 2;
             } else {
                 // ctx.session.user=ctx.request.body.name   
-                let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, "");
-                let dataBuffer = new Buffer(base64Data, 'base64');
-                let getName = Number(Math.random().toString().substr(3)).toString(36) + Date.now()
-             
-                let upload = await new Promise((reslove,reject)=>{
-                    fs.writeFile('./public/images/' + getName + '.png', dataBuffer, err => { 
-                        if (err) {
-                            throw err;
-                            reject(false)
-                        };
-                        reslove(true)
-                        console.log('头像上传成功') 
-                    });            
-                })
-                if (upload) {
+                if(user.avator != ''){
+                    let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, "");
+                    let dataBuffer = new Buffer(base64Data, 'base64');
+                    let getName = Number(Math.random().toString().substr(3)).toString(36) + Date.now()
+                   
+                    let upload = await new Promise((reslove,reject)=>{
+                        fs.writeFile('./public/images/' + getName + '.png', dataBuffer, err => { 
+                            if (err) {
+                                throw err;
+                                reject(false)
+                            };
+                            reslove(true)
+                            console.log('头像上传成功') 
+                        });            
+                    })
                     await userModel.insertData([user.name, md5(user.pass), getName+'.png', moment().format('YYYY-MM-DD HH:mm:ss')]) 
-                        .then(res=>{
-                            console.log('注册成功',res)
-                            //注册成功
-                            ctx.body = 3;
-                        })
+                    .then(res=>{
+                        console.log('注册成功',res)
+                        //注册成功
+                        ctx.body = 3;
+                    })
                 }else{
-                    consol.log('头像上传失败')
-                    ctx.body = {
-                        data: 4
-                    }
+                    await userModel.insertData([user.name, md5(user.pass), '', moment().format('YYYY-MM-DD HH:mm:ss')]) 
+                    .then(res=>{
+                        console.log('注册成功',res)
+                        //注册成功
+                        ctx.body = 3;
+                    })
                 }
+                // let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, "");
+                // let dataBuffer = new Buffer(base64Data, 'base64');
+                // let getName = Number(Math.random().toString().substr(3)).toString(36) + Date.now()
+               
+                // let upload = await new Promise((reslove,reject)=>{
+                //     fs.writeFile('./public/images/' + getName + '.png', dataBuffer, err => { 
+                //         if (err) {
+                //             throw err;
+                //             reject(false)
+                //         };
+                //         reslove(true)
+                //         console.log('头像上传成功') 
+                //     });            
+                // })
+                // if (!upload) {
+                //     consol.log('头像上传失败')
+                //     ctx.body = {
+                //         data: 4
+                //     }
+                // }
             }
         })
 })
