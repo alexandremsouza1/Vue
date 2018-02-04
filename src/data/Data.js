@@ -36,5 +36,12 @@ export const comment = (content , uid , name) => fetch(baseUrl+'/comments', {
 }).then(function(response) {
     return  response.text()
 })
+export const delete_comment = (uid , id , name) => fetch(baseUrl+'/posts/comment/removesige', {
+    method: "POST",
+    body: JSON.stringify({ postId: uid, commentId: id, name:name}),
+    mode: "cors",
+}).then(function(response) {
+    return  response.text()
+})
 export const singlePostData = ( id ) => fetch(baseUrl+'/posts/'+id).then(response => response.json())
  

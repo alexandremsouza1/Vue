@@ -4,6 +4,7 @@ import home from '@/page/home'
 import login from '@/page/login'
 import articles from '@/page/articles'
 import register from '@/page/register'
+import mypost from '@/page/mypost'
 import detail from '@/page/detail'
 
 Vue.use(Router)
@@ -34,6 +35,11 @@ const vueRouter = new Router({
       path: '/detail/:id',
       name: 'detail',
       component: detail
+    },
+    {
+      path: '/mypost',
+      name: 'mypost',
+      component: mypost
     },
   ]
 })

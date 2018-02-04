@@ -51,6 +51,7 @@
                                 <a class="nofollow" href="">{{comment.name}}</a>
                                 <span class="datetime">{{comment.moment}}</span>
                                 <p class="comment-content" v-html="comment.content"></p>
+                                <span v-if="comment.name === userInfo" @click="delete_comment(comment.id)">删除</span>
                         </div>
                     </div>
 
@@ -65,7 +66,7 @@
     <script>
     import side from '@/components/Side'
     import headers from '@/components/Header'
-    import { singlePostData,comment } from '@/data/Data'
+    import { singlePostData,comment,delete_comment } from '@/data/Data'
     import { mapState} from 'vuex' 
     export default {
        name: 'Detail',
@@ -76,10 +77,12 @@
       data(){
         return {
         lists:'',
+        postsid:'',
         commentLenght:'',//留言个数
         content:'',//留言内容
         routerId:'',//路由
         comments:'',//评论
+
         base:'http://localhost:3000/images/',
         
         }
@@ -105,9 +108,10 @@
             this.routerId = this.$route.params.id;
             singlePostData(this.routerId).then(data =>  {
                 this.lists = data.posts;
+                this.postsid = data.posts.id;
                 this.commentLenght= data.commentLenght;
                 this.comments = data.pageOne;
-                console.log(data)
+                // console.log(data)
 
             })
             .catch(e => console.log("error", e)) 
@@ -123,19 +127,21 @@
             comment(this.content,this.routerId,this.userInfo).then(data =>{
                      if(data){
              this.$message.success('评论成功');
-             this.comments.push({
-                        "name": this.userInfo,
-                        "content": this.content,
-                        "avator": avator
-                    });
-
+             this.initData ()
              this.content = '';
                      }else{
              this.$message.error('评论失败');
                      }
             }).catch(e => console.log("error", e)) 
 
+            },
+            delete_comment(id){
+                delete_comment(this.postsid,id,this.userInfo).then(data=>{    
+             this.initData ()
+             this.$message.success('删除成功');
+                }).catch(e => console.log("error", e))
             }
+
  
       }
 

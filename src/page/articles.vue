@@ -36,22 +36,7 @@ export default {
       }
   },
   mounted () {
-        checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
-            if (data == 'success') {
-                this.id = localStorage.getItem('id');
-                this.name = localStorage.getItem('user');
-                // this.$router.push({path:'/'})
-            }else if(data == 'expired'){
-                this.$message.warning('登录信息已经过期');
-                this.createUser('')
-                 setTimeout(()=>{
-                        this.$router.push({path:'/login'})
-                    },1500)
-                localStorage.clear()
-            }else{
-                localStorage.clear()
-            }
-        })
+  
     },
   methods:{
       initDate(){

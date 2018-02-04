@@ -5,7 +5,7 @@
      ABOUT ME
      </h2>
      <div class="side-content">
-     <img v-lazy="base + avators" alt="">
+     <img v-lazy="avators" alt="">
      <p>{{name}} </p>
      </div>
 </div>
@@ -40,7 +40,7 @@ export default {
     },
     methods:{
       insdata(){
-          this.avators = localStorage.getItem('avator') ? localStorage.getItem('avator') : '';
+          this.avators = localStorage.getItem('avator') ? this.base + localStorage.getItem('avator') : '';
           this.name = localStorage.getItem('user') ? localStorage.getItem('user') : '';
       }
 

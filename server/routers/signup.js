@@ -30,7 +30,7 @@ router.post('/signup',koaBody(), async(ctx, next) => {
         repeatpass: data.repeatpass,
         avator: data.avator
     }
-    console.log(user)
+   // console.log(user)
     await userModel.findDataByName(user.name)
         .then(async (result) => {
             // console.log(result)
@@ -49,6 +49,7 @@ router.post('/signup',koaBody(), async(ctx, next) => {
             } else {
                 // ctx.session.user=ctx.request.body.name   
                 if(user.avator != ''){
+                    console.log(9)
                     let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, "");
                     let dataBuffer = new Buffer(base64Data, 'base64');
                     let getName = Number(Math.random().toString().substr(3)).toString(36) + Date.now()

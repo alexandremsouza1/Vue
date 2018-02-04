@@ -107,7 +107,7 @@ export default {
                     // localStorage.setItem('user',this.userName)
                     // localStorage.setItem('avator',this.dataUrl);
                     setTimeout(() => {
-                        this.$router.push({path:'/login'})
+                        this.$router.push({path:'/'})
                     },1000)
                 }
             })

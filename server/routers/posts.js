@@ -123,13 +123,6 @@ router.get('/create', async(ctx, next) => {
 
 // post 发表文章
 router.post('/create',koaBody(), async(ctx, next) => {
-    // console.log(ctx.request.body)
-    // let title = ctx.request.body.title,
-    //     content = ctx.request.body.content,
-    //     id = ctx.session.id,
-    //     name = ctx.session.user,
-    //     time = moment().format('YYYY-MM-DD HH:mm:ss'),
-
         var avator;
         var data;
         var time;
@@ -293,6 +286,7 @@ router.post('/posts/:postId/edit', async(ctx, next) => {
 // 删除单篇文章
 router.post('/posts/:postId/remove', async(ctx, next) => {
     let postId = ctx.params.postId,
+    
         allow;
     await userModel.findDataById(postId)
         .then(res=>{
@@ -322,15 +316,20 @@ router.post('/posts/:postId/remove', async(ctx, next) => {
     }
 })
 // 删除评论
-router.post('/posts/:postId/comment/:commentId/remove', async(ctx, next) => {
-    let postId = ctx.params.postId,
-        commentId = ctx.params.commentId,
+router.post('/posts/comment/removesige', koaBody(), async(ctx, next) => {
+    // let postId = ctx.params.postId,
+    //     commentId = ctx.params.commentId,
+        var requestBody = ctx.request.body;
+        data = JSON.parse(requestBody)
+        let postId = data.postId,
+        commentId = data.commentId,
+        name = data.name,
         res_comments,
         allow;
     await userModel.findComment(commentId)
         .then(res=>{
             //console.log(res)
-            if(res[0].name != ctx.session.user){
+            if(res[0].name != name){
                 allow = false
             }else{
                 allow = true

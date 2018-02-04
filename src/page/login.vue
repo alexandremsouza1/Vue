@@ -45,7 +45,7 @@ export default {
       return {
       userName:'',
       password:'',
-      check1: false,
+      check1: false
       }
   },
   computed:{
@@ -57,11 +57,12 @@ export default {
   mounted () {
 
     },
- beforeEach (to, from, next) {
- 
- next()
- 
-   },
+//    beforeRouteLeave (to, from, next) {
+//        //alert(to.path);
+//        this.torouter = to.path;
+      
+//    next()
+//    },
   methods:{
        ...mapActions([
             'createUser'
@@ -84,9 +85,15 @@ export default {
                     localStorage.setItem('token',data.token)
                     this.createUser(localStorage.getItem('user'))
                     // this.createUser(this.userName)
+                    console.log(this.torouter)
                     setTimeout(() => {
+                        // if(this.torouter == '/register'){
+                        //   this.$router.push({path:'/'})
+                        // }else{
+                        //     this.$router.go(-1)
+                        // }
                         //this.$router.push({path:'/'})
-                        this.$router.go(-1)
+                       this.$router.go(-1)
                     },1000)
                 }else{
                     this.$message.error('密码错误');

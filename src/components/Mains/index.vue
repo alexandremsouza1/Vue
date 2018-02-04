@@ -8,14 +8,13 @@
           <div class="main-card">
                 <div class="posts-content" v-html="list.md"></div>
                 <div class="posts-y">
-                  <ui-button color="orange"><router-link :to="'/detail/'+list.id">阅读全文</router-link></ui-button>
+                  <router-link :to="'/detail/'+list.id">阅读全文</router-link>
                 </div>
           </div>
-
               <div class="bottom-blog">
               <ul class="bolg-comment">
               <li>
-              <a href="http://best-themexpose.blogspot.com/2015/03/papilion-minter-savior.html#comments">{{list.comments}}</a>
+              <a href="">{{list.comments}}条评论</a>
               </li>
               </ul>
               </div>

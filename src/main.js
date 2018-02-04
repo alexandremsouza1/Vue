@@ -4,9 +4,11 @@ import Vue from 'vue'
 import store from './store'
 import App from './App'
 import router from './router'
+import SvgIcons from '@/assets/logo.png'
 import ElementUI from 'element-ui'
 import KeenUI from 'keen-ui'
 import 'keen-ui/dist/keen-ui.css'
+ 
 import axios from 'axios'
 import VueLazyload from 'vue-lazyload'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -22,7 +24,8 @@ Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 Vue.use(VueLazyload, {
-  loading: 'http://www.wclimb.site/images/imgLoading.svg'
+  loading: 'http://www.wclimb.site/images/imgLoading.svg',
+  error:SvgIcons
 })
 Vue.use(ElementUI)
 Vue.use(KeenUI)

@@ -4,6 +4,7 @@
 <ul>
     <template v-if="logins">
     <li><router-link to="/" class="box">全部文章</router-link></li>
+    <li><router-link :to="{path: '/mypost', query:{author:userInfo}}" class="box">我的文章</router-link></li>
     <li><router-link to="/articles" class="box">发表文章</router-link></li>
     </template>
     <template v-else>
@@ -36,7 +37,7 @@ export default {
   },
  
   created () {
-      window.addEventListener('scroll',this.winScroll);
+    //   window.addEventListener('scroll',this.winScroll);
           
       checkUser(localStorage.getItem('user'),localStorage.getItem('token')).then(data => {
             //console.log(data)
