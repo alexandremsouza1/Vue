@@ -1,5 +1,7 @@
 <template>
-<section id="main">
+<section>   
+    <transition name="fade"><loading v-show="showLoading"></loading></transition>
+    <section id="main">
   <div class="blog">
     <headers></headers>
     <div>
@@ -64,22 +66,26 @@
   </div>
   <side></side>
 </section>
+</section>
  </template>
     <script>
     import side from '@/components/Side'
     import headers from '@/components/Header'
+    import loading from '@/components/loading'
     import { singlePostData,comment,delete_comment,delete_posts } from '@/data/Data'
     import { mapState} from 'vuex' 
     export default {
        name: 'Detail',
        components:{
         side,
-        headers
+        headers,
+        loading
        },
       data(){
         return {
         lists:'',
         postsid:'',
+        showLoading:true,
         commentLenght:'',//留言个数
         content:'',//留言内容
         routerId:'',//路由
@@ -112,6 +118,7 @@
                 this.postsid = data.posts.id;
                 this.commentLenght= data.commentLenght;
                 this.comments = data.pageOne;
+                this.showLoading = false;
                // console.log(data)
             })
             .catch(e => console.log("error", e)) 
@@ -159,6 +166,12 @@
     </script>
 
  <style lang="scss" scoped>
+     .fade-enter-active, .fade-leave-active {
+        transition: opacity .3s;
+    }
+    .fade-enter, .fade-leave-active {
+        opacity: 0;
+    }
   html{font-size: 62.5%;}
   #main{
     width: 1070px;

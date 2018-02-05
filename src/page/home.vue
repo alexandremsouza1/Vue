@@ -45,11 +45,10 @@
        methods:{
        initData(){
           list().then(data=>{
-            
             this.lists = data.posts;
-             setTimeout(() => {
+            //  setTimeout(() => {
             this.showLoading = false;
-                 },3000)
+                //  },3000)
             })
         }
     
