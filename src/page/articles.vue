@@ -52,6 +52,8 @@ export default {
                 this.content = '';
                 return
             }
+         this.name = localStorage.getItem('user');
+         this.id = localStorage.getItem('id')
          create(this.title,this.content,this.id,this.name).then(data=>{
               //  console.log(data)
                 if(data){

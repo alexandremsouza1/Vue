@@ -15,6 +15,7 @@ router.get('/posts', async(ctx, next) => {
         posts,
         postsLength,
         name = decodeURIComponent(ctx.request.querystring.split('=')[1]);
+       // console.log(name)
     if (ctx.request.querystring) {
         console.log('ctx.request.querystring', name)
         await userModel.findDataByUser(name)
@@ -25,11 +26,11 @@ router.get('/posts', async(ctx, next) => {
             .then(result => {
                 res = result
             })
-        await ctx.render('selfPosts', {
-            session: ctx.session,
-            posts: res,
+        postspage = {
+            postspage: res,
             postsPageLength:Math.ceil(postsLength / 10),
-        })
+        }
+        ctx.body = postspage
     } else {
         await userModel.findPostByPage(1)
             .then(result => {
@@ -221,20 +222,13 @@ router.post('/comments', koaBody(),async(ctx, next) => {
 })
 
 // 编辑单篇文章页面
-router.get('/posts/:postId/edit', async(ctx, next) => {
-    let name = ctx.session.user,
-        postId = ctx.params.postId,
-        res;
-    await checkLogin(ctx)
+router.get('/posts/edit/posts',async(ctx, next) => {
+    postId = decodeURIComponent(ctx.request.querystring.split('=')[1]);
     await userModel.findDataById(postId)
         .then(result => {
             res = result[0]
         })
-    await ctx.render('edit', {
-        session: ctx.session,
-        postsContent: res.md,
-        postsTitle: res.title
-    })
+    ctx.body = res
 
 })
 
@@ -284,14 +278,17 @@ router.post('/posts/:postId/edit', async(ctx, next) => {
 })
 
 // 删除单篇文章
-router.post('/posts/:postId/remove', async(ctx, next) => {
-    let postId = ctx.params.postId,
+router.post('/posts/remove', koaBody(), async(ctx, next) => {
+    var requestBody = ctx.request.body;
+        data = JSON.parse(requestBody)
+    let postId = data.postId,
+        name = data.name,
     
         allow;
     await userModel.findDataById(postId)
         .then(res=>{
-            console.log(res[0].name,ctx.session.user)
-            if(res[0].name != ctx.session.user){
+            console.log(res[0].name,name)
+            if(res[0].name != name){
                 allow = false
             }else{
                 allow = true

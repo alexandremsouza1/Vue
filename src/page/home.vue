@@ -1,15 +1,22 @@
 <template>
-<section id="main">
-  <div class="blog">
+<section> 
+    <loading v-show="showLoading"></loading>
+    <section id="main" v-if="!showLoading">
+    <div class="blog">
     <headers></headers>
-    <mains></mains>
-  </div>
+    <mains :listpage="lists"></mains>
+    </div>
   <side></side>
+ 
 </section>
+</section>
+ 
+
  </template>
     <script>
     import side from '@/components/Side'
     import headers from '@/components/Header'
+    import loading from '@/components/loading'
     import mains from '@/components/mains'
     import { list } from '@/data/Data' 
     import { mapActions } from 'vuex'
@@ -18,11 +25,13 @@
        components:{
         side,
         headers,
-        mains
+        mains,
+        loading
        },
       data(){
         return {
-          avator:'',
+          lists:'',
+          showLoading:true
         }
       },
 
@@ -30,11 +39,19 @@
  
       },
       mounted () {
-
+       this.initData()
       },
       
        methods:{
-
+       initData(){
+          list().then(data=>{
+            
+            this.lists = data.posts;
+             setTimeout(() => {
+            this.showLoading = false;
+                 },3000)
+            })
+        }
     
       }
 

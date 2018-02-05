@@ -3,7 +3,6 @@
   <div class="blog">
     <headers></headers>
     <div>
-
         <div class="Header">
             <h1>{{lists.title}}</h1>
             <div class="Header-data">
@@ -12,6 +11,9 @@
         </div>
         <div class="posts" v-html="lists.md">
             
+        </div>
+        <div v-if="lists.name === userInfo">
+            <span @click="deletepost(lists.id)">删除</span><router-link :to="{path: '/edit', query:{id:postsid}}">编辑</router-link>
         </div>
         <!-- <div class="bottom-blog">
             <ul>
@@ -23,7 +25,7 @@
         {{commentLenght}}条评论
         </h4>
         </div>
-<template v-if="userInfo == ''">
+   <template v-if="userInfo == ''">
     <div>需要登录后才能评论</div>
    </template>
     <template v-else>
@@ -66,7 +68,7 @@
     <script>
     import side from '@/components/Side'
     import headers from '@/components/Header'
-    import { singlePostData,comment,delete_comment } from '@/data/Data'
+    import { singlePostData,comment,delete_comment,delete_posts } from '@/data/Data'
     import { mapState} from 'vuex' 
     export default {
        name: 'Detail',
@@ -102,7 +104,6 @@
       mounted () {
        this.initData()
       },
-
       methods:{
             initData () {
             this.routerId = this.$route.params.id;
@@ -111,8 +112,7 @@
                 this.postsid = data.posts.id;
                 this.commentLenght= data.commentLenght;
                 this.comments = data.pageOne;
-                // console.log(data)
-
+               // console.log(data)
             })
             .catch(e => console.log("error", e)) 
             },
@@ -137,10 +137,20 @@
             },
             delete_comment(id){
                 delete_comment(this.postsid,id,this.userInfo).then(data=>{    
-             this.initData ()
-             this.$message.success('删除成功');
+                this.initData ()
+                this.$message.success('删除成功');
                 }).catch(e => console.log("error", e))
-            }
+            },
+            deletepost(id){
+                delete_posts(id,this.userInfo).then(data=>{
+                   console.log(data)
+                   
+                   this.$message.success('删除成功');
+                   setTimeout(() => {
+                   this.$router.push({path:'/mypost'})
+                   })
+                })  
+            }  
 
  
       }

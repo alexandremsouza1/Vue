@@ -6,6 +6,7 @@ import articles from '@/page/articles'
 import register from '@/page/register'
 import mypost from '@/page/mypost'
 import detail from '@/page/detail'
+import edit from '@/page/edit'
 
 Vue.use(Router)
 const vueRouter = new Router({
@@ -40,6 +41,11 @@ const vueRouter = new Router({
       path: '/mypost',
       name: 'mypost',
       component: mypost
+    },
+    {
+      path: '/edit',
+      name: 'edit',
+      component: edit
     },
   ]
 })

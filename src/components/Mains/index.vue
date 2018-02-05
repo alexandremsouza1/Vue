@@ -1,6 +1,6 @@
 <template>
 <section id="card">  
-    <div class="card" v-for="(list,index) in lists" :key="index">
+    <div class="card" v-for="(list,index) in listpage" :key="index">
         <div class="top-card">
           <h3>{{list.title}}</h3>
           <p>{{list.time}}</p>
@@ -23,9 +23,10 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import { list,checkUser } from '@/data/Data' 
+import { list } from '@/data/Data' 
 export default {
     name: 'mains',
+    props:['listpage'],
     data () {
         return {
            lists: '',
@@ -34,17 +35,10 @@ export default {
     computed:{
 
      },
-    created() {
-     this.initData()
+    mounted() {
+     
     },
     methods:{
-        initData(){
-          list().then(data=>{
-           // console.log(data.posts)
-           this.lists = data.posts;
-         //  console.log(this.lists)
-          })
-        }
       }
 
 }
